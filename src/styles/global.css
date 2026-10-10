@@ -337,6 +337,9 @@ button, a {
 }
 
 /* Spot Headings */
+html .section .spot,
+html.paged .section .spot,
+html[data-paged="true"] .section .spot,
 .spot {
   position: relative;
   margin: 14px 0 0;
@@ -346,8 +349,12 @@ button, a {
   text-transform: uppercase;
   white-space: nowrap;
   perspective: 1000px;
+  color: var(--ink);
 }
 
+html .section.about .spot,
+html.paged .section.about .spot,
+html[data-paged="true"] .section.about .spot,
 .section.about .spot {
   font-size: clamp(38px, min(5vw, 8.2vh), 92px);
   white-space: normal;
@@ -358,6 +365,7 @@ button, a {
   font: italic 400 1.06em/0.9 'Instrument Serif', Georgia, serif;
   text-transform: none;
   letter-spacing: -0.01em;
+  color: #5a5a5a;
 }
 
 .sp-base, .sp-lit {
@@ -1439,8 +1447,8 @@ html[data-paged="true"] .work-head {
   margin-bottom: 22px;
 }
 
-html.paged .headline,
-html[data-paged="true"] .headline {
+html.paged .headline:not(.spot),
+html[data-paged="true"] .headline:not(.spot) {
   font-size: clamp(36px, min(5.2vw, 8vh), 88px);
   margin-top: 10px;
 }

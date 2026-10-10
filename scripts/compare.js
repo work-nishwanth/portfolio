@@ -10,7 +10,7 @@ const viewports = [
   { width: 1440, height: 900 }
 ];
 
-const htmlUrl = 'file:///' + path.resolve(__dirname, '../portfolio_motion_v9.html').replace(/\\/g, '/');
+const htmlUrl = 'file:///' + path.resolve(__dirname, '../docs/portfolio_motion_v9.html').replace(/\\/g, '/');
 const reactUrl = 'http://localhost:5173/';
 
 async function getElementStyles(page) {

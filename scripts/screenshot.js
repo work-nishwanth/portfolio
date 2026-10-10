@@ -6,7 +6,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const artifactDir = 'C:\\Users\\nishw\\.gemini\\antigravity-ide\\brain\\e217d6b6-cb1a-4190-a64e-665a7f94483c';
-const htmlUrl = 'file:///' + path.resolve(__dirname, '../portfolio_motion_v9.html').replace(/\\/g, '/');
+const htmlUrl = 'file:///' + path.resolve(__dirname, '../docs/portfolio_motion_v9.html').replace(/\\/g, '/');
 const reactUrl = 'http://localhost:5173/';
 
 async function capture() {

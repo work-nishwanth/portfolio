@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import type { Project } from '../../content/projects';
 
 interface ProjectPanelProps {
@@ -17,8 +17,21 @@ export const ProjectPanel: React.FC<ProjectPanelProps> = ({
   onOpenCase
 }) => {
   const numStr = String(index + 1).padStart(2, '0');
+  const hoverTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (hoverTimerRef.current) {
+        clearTimeout(hoverTimerRef.current);
+      }
+    };
+  }, []);
 
   const handleClick = () => {
+    if (hoverTimerRef.current) {
+      clearTimeout(hoverTimerRef.current);
+      hoverTimerRef.current = null;
+    }
     if (isActive) {
       onOpenCase(index);
     } else {
@@ -28,19 +41,34 @@ export const ProjectPanel: React.FC<ProjectPanelProps> = ({
 
   const handlePointerEnter = (e: React.PointerEvent) => {
     if (e.pointerType === 'mouse' && !isActive) {
-      onSelect(index);
+      if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current);
+      hoverTimerRef.current = setTimeout(() => {
+        onSelect(index);
+      }, 70);
     }
   };
+
+  const handlePointerLeave = () => {
+    if (hoverTimerRef.current) {
+      clearTimeout(hoverTimerRef.current);
+      hoverTimerRef.current = null;
+    }
+  };
+
+  const ariaLabel = isActive
+    ? `Open case study: ${project.title}`
+    : `Select project ${project.title}`;
 
   return (
     <button
       type="button"
       className={`strip-item ${isActive ? 'active' : ''}`}
       data-n={numStr}
-      aria-label={`Select project ${project.title}`}
+      aria-label={ariaLabel}
       aria-pressed={isActive}
       onClick={handleClick}
       onPointerEnter={handlePointerEnter}
+      onPointerLeave={handlePointerLeave}
       style={{ '--i': index } as React.CSSProperties}
     >
       <i className="pj-line" />
@@ -59,13 +87,7 @@ export const ProjectPanel: React.FC<ProjectPanelProps> = ({
         </span>
         <span className="pj-sum">{project.summary}</span>
         <span className="label pj-metric">{project.metric}</span>
-        <span
-          className="label pj-cta"
-          onClick={(e) => {
-            e.stopPropagation();
-            onOpenCase(index);
-          }}
-        >
+        <span className="label pj-cta">
           VIEW CASE STUDY <b aria-hidden="true">→</b>
         </span>
       </span>

@@ -3,9 +3,5 @@ import { defineConfig } from 'vite';
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
-  server: {
-    host: true,
-    allowedHosts: true
-  }
+  plugins: [react()]
 });

@@ -13,12 +13,13 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
   const baseRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
-    const fitName = () => {
-      const heading = nameRef.current;
-      const base = baseRef.current;
-      if (!heading || !base || !heading.parentElement) return;
+    const heading = nameRef.current;
+    const base = baseRef.current;
+    const parent = heading?.parentElement;
+    if (!heading || !base || !parent) return;
 
-      const avail = heading.parentElement.clientWidth;
+    const fitName = () => {
+      const avail = parent.clientWidth;
       heading.style.fontSize = '100px';
       const w = base.offsetWidth;
       if (w > 0) {
@@ -27,13 +28,17 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
     };
 
     fitName();
-    window.addEventListener('resize', fitName);
     if (document.fonts?.ready) {
       document.fonts.ready.then(fitName);
     }
 
+    const ro = new ResizeObserver(() => {
+      fitName();
+    });
+    ro.observe(parent);
+
     return () => {
-      window.removeEventListener('resize', fitName);
+      ro.disconnect();
     };
   }, []);
 
@@ -67,10 +72,10 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
         </h1>
 
         <div className="mid">
-          <p
-            className="statement"
-            dangerouslySetInnerHTML={{ __html: siteConfig.hero.statementHtml }}
-          />
+          <p className="statement">
+            Crafting <em>thoughtful</em> systems
+            <span style={{ color: 'var(--warm)' }}>.</span>
+          </p>
 
           <div className="side">
             <p className="sub">{siteConfig.hero.sub}</p>

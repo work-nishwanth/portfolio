@@ -1,0 +1,14 @@
+:root {
+  --bg: #050505;
+  --surface: #111111;
+  --ink: #f6f5f2;
+  --ink2: #b8b8b8;
+  --muted: #9b9b9b;
+  --faint: #6f6f6f;
+  --warm: #ffab77;
+  --cool: #86d5ff;
+  --violet: #b083ec;
+  --ease: cubic-bezier(0.19, 1, 0.22, 1);
+  --gutter: clamp(22px, 5vw, 88px);
+  --pad: max(var(--gutter), calc((100vw - 1600px) / 2));
+}

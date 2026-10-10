@@ -10,40 +10,26 @@ import { CaseStudyDialog } from './components/case/CaseStudyDialog';
 import { projects } from './content/projects';
 import { usePagedMode } from './hooks/usePagedMode';
 
+function getInitialCase(): { isOpen: boolean; index: number } {
+  if (typeof window === 'undefined') return { isOpen: false, index: 0 };
+  const hash = window.location.hash;
+  if (hash.startsWith('#case-')) {
+    const id = hash.replace('#case-', '');
+    const idx = projects.findIndex((p) => p.id === id);
+    if (idx !== -1) {
+      return { isOpen: true, index: idx };
+    }
+  }
+  return { isOpen: false, index: 0 };
+}
+
 export const App: React.FC = () => {
   usePagedMode();
-  const [activeSection, setActiveSection] = useState('home');
-  const [selectedProject, setSelectedProject] = useState(0);
-  const [isCaseOpen, setIsCaseOpen] = useState(false);
+
+  const [initialCase] = useState(getInitialCase);
+  const [selectedProject, setSelectedProject] = useState<number>(initialCase.index);
+  const [isCaseOpen, setIsCaseOpen] = useState<boolean>(initialCase.isOpen);
   const [clickPos, setClickPos] = useState<{ x: number; y: number } | null>(null);
-
-  // Active section tracking via IntersectionObserver
-  useEffect(() => {
-    const sectionIds = ['home', 'work', 'about', 'experience', 'contact'];
-    const elements = sectionIds
-      .map((id) => document.getElementById(id))
-      .filter((el): el is HTMLElement => el !== null);
-
-    if (!('IntersectionObserver' in window)) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveSection(entry.target.id);
-          }
-        });
-      },
-      { threshold: 0.35 }
-    );
-
-    elements.forEach((el) => observer.observe(el));
-
-    return () => {
-      elements.forEach((el) => observer.unobserve(el));
-      observer.disconnect();
-    };
-  }, []);
 
   // Hash synchronization for Case Study modal deep-links
   const openCaseWithIndex = useCallback((index: number, push = true, pos?: { x: number; y: number }) => {
@@ -55,7 +41,7 @@ export const App: React.FC = () => {
     if (push) {
       const proj = projects[index];
       if (proj) {
-        history.pushState({ portfolioCase: true }, '', `#case-${proj.id}`);
+        window.history.pushState({ portfolioCase: true }, '', `#case-${proj.id}`);
       }
     }
   }, []);
@@ -63,7 +49,11 @@ export const App: React.FC = () => {
   const closeCase = useCallback((fromHistory = false) => {
     setIsCaseOpen(false);
     if (!fromHistory && window.location.hash.startsWith('#case-')) {
-      history.back();
+      if (window.history.state?.portfolioCase) {
+        window.history.back();
+      } else {
+        window.history.replaceState(null, '', window.location.pathname + window.location.search);
+      }
     }
   }, []);
 
@@ -74,7 +64,8 @@ export const App: React.FC = () => {
         const id = hash.replace('#case-', '');
         const idx = projects.findIndex((p) => p.id === id);
         if (idx !== -1) {
-          openCaseWithIndex(idx, false);
+          setSelectedProject(idx);
+          setIsCaseOpen(true);
         }
       } else {
         closeCase(true);
@@ -82,21 +73,10 @@ export const App: React.FC = () => {
     };
 
     window.addEventListener('popstate', handlePopState);
-
-    // Initial load check
-    const initialHash = window.location.hash;
-    if (initialHash.startsWith('#case-')) {
-      const id = initialHash.replace('#case-', '');
-      const idx = projects.findIndex((p) => p.id === id);
-      if (idx !== -1) {
-        openCaseWithIndex(idx, false);
-      }
-    }
-
     return () => {
       window.removeEventListener('popstate', handlePopState);
     };
-  }, [openCaseWithIndex, closeCase]);
+  }, [closeCase]);
 
   const handleOpenCase = (index: number) => {
     openCaseWithIndex(index, true);
@@ -107,7 +87,7 @@ export const App: React.FC = () => {
     setSelectedProject(nextIndex);
     const nextProj = projects[nextIndex];
     if (nextProj) {
-      history.replaceState({ portfolioCase: true }, '', `#case-${nextProj.id}`);
+      window.history.replaceState({ portfolioCase: true }, '', `#case-${nextProj.id}`);
     }
   };
 
@@ -121,7 +101,7 @@ export const App: React.FC = () => {
   return (
     <>
       <ProgressBar />
-      <Header activeSection={activeSection} onNavigate={handleNavigate} />
+      <Header onNavigate={handleNavigate} />
 
       <main>
         <Hero onNavigate={handleNavigate} />

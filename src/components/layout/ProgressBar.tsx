@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 export const ProgressBar: React.FC = () => {
-  const [progress, setProgress] = useState(0);
+  const barRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const updateProgress = () => {
+      const el = barRef.current;
+      if (!el) return;
       const max = document.documentElement.scrollHeight - window.innerHeight;
       const current = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
-      setProgress(current);
+      el.style.transform = `scaleX(${current})`;
     };
 
     window.addEventListener('scroll', updateProgress, { passive: true });
@@ -22,10 +24,11 @@ export const ProgressBar: React.FC = () => {
 
   return (
     <div
+      ref={barRef}
       id="progress"
       className="progress"
       aria-hidden="true"
-      style={{ transform: `scaleX(${progress})` }}
+      style={{ transform: 'scaleX(0)' }}
     />
   );
 };

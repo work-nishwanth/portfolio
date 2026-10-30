@@ -56,7 +56,7 @@ src/
   styles/            Shared tokens and scoped page styles
 public/
   project-previews/   Real project screenshots and output images
-  fonts/             Self-hosted fonts and licenses
+  fonts/             Self-hosted display fonts
 projects/index.html  Projects-page build entry
 ```
 

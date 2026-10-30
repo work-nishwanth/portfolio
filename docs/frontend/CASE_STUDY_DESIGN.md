@@ -1,11 +1,9 @@
-# Case-study design reference
+# Case-study format and portfolio identity
 
-Reference inspected on 2026-10-30: `https://yarranishwanth.tech/case-study/twiller`.
+The live site's case studies are a reference for information structure: project introduction, facts, workflow, preview, technical narrative, results, limitations, and onward navigation. Its visual design is not a template to copy.
 
-The full-screen case-study view follows the reference's sticky header, back control and breadcrumbs, quick-switch tabs, Playfair Display title, italic headline, source/live actions, four fact cards, pipeline panel, full-width project preview, technology pills, two-column narrative rows, previous/next navigation, exploration cards, and floating navigation dock.
+The implemented reading view uses this portfolio's existing Anton display titles, Instrument Serif accents, Manrope body text, DM Mono labels, warm/cool colors, thin architectural rules, and restrained entrance motion. Light and dark palettes come from the shared site tokens. The facts appear as an open data strip; workflow steps form a numbered sequence; narrative sections have their own numbered rail. Preview imagery and published content remain unchanged.
 
-Inter, Outfit, and Playfair Display are self-hosted in `public/fonts/`, with their OFL licenses. Styling is scoped to `case-editorial` so the homepage and projects page retain their existing typography and layout. Metrics for the three published case studies are stored in `src/content/caseStudyFacts.ts`; other projects use descriptive facts rather than invented performance numbers.
+The copied typography, rounded metric cards, pill tabs, and floating dock have been removed. Theme control sits in the sticky header. Previous/next navigation and portfolio exploration links remain available in the page flow.
 
-The existing case hashes and native dialog remain in use. Quick-switch and previous/next controls update the case hash, reset reading position, and preserve browser history. Initial focus moves to the title, keyboard Escape closes the view, and focus returns to the triggering project. Body scrolling is locked while open. Theme state is shared with the main header, persisted, and synchronized across tabs. Reduced motion removes transitions and smooth reading scroll.
-
-Real project screenshots and all imported narrative sections are preserved. Mobile layouts stack the narrative rows and fact cards and keep navigation accessible without horizontal overflow.
+Existing native-dialog behavior is preserved: stable case hashes, quick switching with reading-position reset, body scroll lock, initial title focus, Escape to close, and focus restoration. Reduced-motion users receive no entrance or transition animations. The layout stacks naturally on mobile without clipping or horizontal overflow.

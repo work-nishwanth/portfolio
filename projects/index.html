@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#050505" />
+    <script>
+      (() => {
+        let theme;
+        try { theme = localStorage.getItem('portfolio-theme'); } catch {}
+        if (theme !== 'light' && theme !== 'dark') {
+          theme = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+        }
+        document.documentElement.dataset.theme = theme;
+        document.querySelector('meta[name="theme-color"]').content = theme === 'light' ? '#f5f3ee' : '#050505';
+      })();
+    </script>
+    <meta name="description" content="Nishwanth Yarra — full-stack developer and AI/ML student. Explore selected software, research and product work." />
+    <meta property="og:title" content="All Projects — Nishwanth Yarra" />
+    <meta property="og:description" content="Thoughtful interfaces. Reliable systems. Applied intelligence." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://yarranishwanth.tech/projects/" />
+    <meta property="og:image" content="https://yarranishwanth.tech/og.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="All Projects — Nishwanth Yarra" />
+    <meta name="twitter:description" content="Thoughtful interfaces. Reliable systems. Applied intelligence." />
+    <meta name="twitter:image" content="https://yarranishwanth.tech/og.png" />
+    <link rel="canonical" href="https://yarranishwanth.tech/projects/" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23050505'/%3E%3Ctext x='9' y='45' font-size='35' font-family='Arial' fill='white'%3EN%3C/text%3E%3C/svg%3E" />
+    <link rel="preload" href="/fonts/anton-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/instrument-serif-latin-400-italic.woff2" as="font" type="font/woff2" crossorigin />
+    <title>All Projects — Nishwanth Yarra</title>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Nishwanth Yarra",
+        "url": "https://yarranishwanth.tech/",
+        "jobTitle": "Full-stack & AI Developer",
+        "sameAs": [
+          "https://github.com/Nishwanth2809",
+          "https://linkedin.com/in/yarranishwanth"
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <noscript>
+      <div style="padding: 32px; font-family: sans-serif; background: #050505; color: #f6f5f2;">
+        <h1>Nishwanth Yarra</h1>
+        <p>Full-stack &amp; AI Developer</p>
+        <p>Crafting thoughtful systems. Specializing in React, Node.js, and Machine Learning.</p>
+        <p>
+          <a href="mailto:nishwanthyarra@gmail.com" style="color: #86d5ff;">Email</a> ·
+          <a href="https://github.com/Nishwanth2809" style="color: #86d5ff;">GitHub</a> ·
+          <a href="https://linkedin.com/in/yarranishwanth" style="color: #86d5ff;">LinkedIn</a>
+        </p>
+      </div>
+    </noscript>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-export function usePagedMode(): boolean {
+export function usePagedMode(enabled = true): boolean {
   const [isPaged, setIsPaged] = useState<boolean>(false);
 
   useEffect(() => {
@@ -8,6 +8,7 @@ export function usePagedMode(): boolean {
       const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const hoverFine = window.matchMedia('(hover: hover)').matches;
       const matches =
+        enabled &&
         window.innerWidth > 900 &&
         window.innerHeight >= 620 &&
         hoverFine &&
@@ -37,7 +38,7 @@ export function usePagedMode(): boolean {
       document.documentElement.removeAttribute('data-paged');
       document.documentElement.classList.remove('paged');
     };
-  }, []);
+  }, [enabled]);
 
   return isPaged;
 }

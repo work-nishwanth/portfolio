@@ -1,3 +1,5 @@
+import { projects } from './projects';
+
 export interface StatItem {
   id: string;
   value: string;
@@ -32,8 +34,8 @@ export const statsData: StatItem[] = [
   },
   {
     id: 'projects',
-    value: '4',
-    target: 4,
+    value: String(projects.length),
+    target: projects.length,
     suffix: '',
     isCountUp: true,
     label: 'Featured projects'

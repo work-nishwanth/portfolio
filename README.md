@@ -1,59 +1,74 @@
 # Portfolio
 
-Personal portfolio web application for Nishwanth Yarra (Full-stack & AI Developer).
+Nishwanth Yarra’s portfolio, built with React 19, TypeScript, and Vite.
 
-## Tech Stack
-- **Framework**: React 19 + TypeScript + Vite
-- **Motion & Scroll**: GSAP + `@gsap/react` + ScrollTrigger, Lenis smooth scrolling, Motion (`motion/react`)
-- **3D**: Three.js + `@react-three/fiber` + `@react-three/drei` (with responsive CSS fallback)
-- **Typography**: Self-hosted `@fontsource` packages (Anton, Manrope, DM Mono, Instrument Serif)
-- **Styling**: Vanilla CSS tokens and custom design system
+## Features
 
-## Scripts
-- `npm run dev`: Start local Vite development server
-- `npm run build`: Type-check and build production bundle
-- `npm run lint`: Lint code with oxlint
-- `npm run preview`: Preview production build locally
+- Architectural hero, selected-work accordion, About, Journey, and a correspondence-inspired Contact section.
+- A dedicated `/projects/` page with all 11 projects and real screenshots or project outputs.
+- Full-screen case studies with sticky navigation, project tabs, fact cards, pipeline steps, readable narrative sections, and previous/next navigation.
+- Light/dark themes with saved preferences and shared theme controls.
+- Responsive layouts, reduced-motion support, keyboard-accessible dialogs, and email copying with feedback.
 
-## Project Structure
+## Run locally
+
+Use Node.js 20.19+ or 22.12+ and npm.
+
+```sh
+npm ci
+npm run dev
 ```
+
+The portfolio does not require a backend or environment variables. Project previews are checked-in assets; the original project applications do not need to run.
+
+## Commands
+
+```sh
+npm run build     # Type-check and create dist/
+npm run preview   # Preview the production build
+npm run lint      # Run oxlint
+```
+
+## Pages and deployment
+
+Vite builds two HTML entry points:
+
+- `/` — homepage (`index.html`)
+- `/projects/` — complete collection (`projects/index.html`)
+
+Publish the generated `dist/` directory on a static host that serves directory index files. Case studies use hashes such as `/projects/#case-twiller`, so case links do not need a separate server rewrite.
+
+## Source layout
+
+```text
 src/
-  content/            # Typed content files (projects, experience, skills, stats, site config, art)
-  styles/             # Global tokens, grain overlay, and typography/layout rules
-  hooks/              # Custom hooks (usePagedMode, etc.)
   components/
-    layout/           # Header, navigation, ProgressBar
-    hero/             # Hero banner, Skyline pillars, Ticker marquee, light beams
-    work/             # Project accordion strip and panels
-    about/            # Skill groups, plate stack, stats
-    experience/       # Journey timeline steps
-    contact/          # Contact CTA, email copy button, footer links
-    case/             # Native <dialog> case study modal
+    hero/            Hero typography, skyline, ticker, and beams
+    work/            Selected-project strip
+    projects/        Complete collection and screenshot previews
+    about/           Biography, toolkit, and stats
+    experience/      Journey timeline
+    contact/         Letter-style email CTA and copy feedback
+    case/            Case-study reading view
+    layout/          Header, navigation, and progress indicator
+  content/           Typed site content, project records, preview assets, and fact cards
+  hooks/             Theme, paged layout, and utility hooks
+  styles/            Shared tokens and scoped page styles
+public/
+  project-previews/   Real project screenshots and output images
+  fonts/             Self-hosted fonts and licenses
+projects/index.html  Projects-page build entry
 ```
 
-## Adding a New Project
-All copy and project records are decoupled from UI components. To add a project:
-1. Open `src/content/projects.ts`.
-2. Add a new object to the `projects` array adhering to the `Project` interface:
-   ```ts
-   {
-     id: 'new-project-id',
-     title: 'Project Title',
-     category: 'CATEGORY / TAGLINE',
-     summary: 'Brief description...',
-     metric: 'KEY METRIC / HIGHLIGHT',
-     role: 'Your Role',
-     stage: 'Project Stage',
-     stack: 'Tech Stack',
-     status: 'Status',
-     problem: 'Problem statement...',
-     approach: 'Solution approach...',
-     result: 'Outcomes and deliverables...',
-     learned: 'Key learnings...',
-     tags: ['React', 'TypeScript', 'Node.js'],
-     live: 'https://example.com', // optional
-     repo: 'https://github.com/...', // optional
-     art: '<svg path definition...>' // or import from src/content/art.ts
-   }
-   ```
-3. The project accordion strip, project counters, and case-study dialog will automatically incorporate the new entry.
+## Update projects
+
+1. Edit `src/content/projects.ts`. Every project provides its stable ID, title, category, summary, role, stage, stack, status, overview, highlights, and tags. Live and repository links are optional.
+2. Add real images under `public/project-previews/` and map the project ID in `src/content/projectPreviews.ts`. Supply a separate dark capture only when the source application supports it.
+3. For a full case study, populate the optional `caseStudy` record with its headline, overview, contribution, problem, architecture, challenges, decisions, results, limitations, workflow steps, and output.
+4. Add factual case-study cards in `src/content/caseStudyFacts.ts` when available. Other projects use descriptive cards automatically.
+
+The collection and project count use the shared project array. The homepage shows the first four projects. Keep project IDs stable to preserve existing case links.
+
+Content and design provenance are documented in `docs/frontend/`. The Text to Speech entry retains the legacy `voice-chat-ai` ID for link compatibility. Apps without a native dark mode retain their original screenshot colors inside a themed frame.
+
+Generated capture output, build output, dependencies, and local PowerPoint work are excluded from Git.

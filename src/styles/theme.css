@@ -1,0 +1,57 @@
+:root { color-scheme: dark; }
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f5f3ee;
+  --surface: #eae7df;
+  --ink: #202320;
+  --ink2: #50564f;
+  --muted: #666c63;
+  --faint: #757b72;
+  --warm: #9a4822;
+  --cool: #14617e;
+  --violet: #725394;
+}
+.header-actions { display: flex; align-items: center; justify-self: end; gap: 20px; }
+.theme-toggle { display: inline-grid; place-items: center; width: 44px; height: 44px; flex-shrink: 0; border: 1px solid var(--faint); border-radius: 50%; background: var(--surface); color: var(--ink); transition: border-color .2s, background .2s; position: relative; z-index: 62; }
+.theme-toggle:hover { border-color: var(--ink); }
+:root[data-theme="light"] body::before { background: radial-gradient(ellipse at center, transparent 65%, #6863480a); }
+:root[data-theme="light"] body::after { opacity: .025; }
+:root[data-theme="light"] .top { background: #f5f3eee8; border-color: #20232020; }
+:root[data-theme="light"] :is(.navlinks a:hover, .navlinks a.active, .statement em, .about .sub em, .pj-vt, .pj-vt:hover, .pj-cta, .now p, .skillgroup p, .wh-meta a:hover) { color: var(--ink); }
+:root[data-theme="light"] .dot { background: #527731; box-shadow: none; }
+:root[data-theme="light"] :is(.menu-toggle, .navlinks.open) { background: var(--bg); }
+:root[data-theme="light"] .section::after { background: linear-gradient(90deg, #2023200c 1px, transparent 1px) 0 0 / calc(100% / 6) 100%, linear-gradient(90deg, transparent calc(100% - 1px), #2023200c 0); }
+:root[data-theme="light"] :is(.work, .about, .experience)::before { -webkit-text-stroke-color: #20232012; }
+:root[data-theme="light"] .hero { background: radial-gradient(ellipse at 50% 120%, #d9e4e5, transparent 60%); }
+:root[data-theme="light"] .name-base { color: #d8d8ce; -webkit-text-stroke-color: #20232030; }
+:root[data-theme="light"] :is(.name-lit, .sp-lit) { color: var(--ink); }
+:root[data-theme="light"] :is(.sp-base, .spot em) { color: #6b7067; }
+:root[data-theme="light"] .beams { opacity: .3; mix-blend-mode: multiply; }
+:root[data-theme="light"] .pl { border-color: #b8bcb3; background: repeating-linear-gradient(0deg, #2023200a 0 1px, transparent 1px 26px), linear-gradient(#d5d8cf, #e9e9df 62%, #f0f0e7); }
+:root[data-theme="light"] .pl::before { background: #828d81; }
+:root[data-theme="light"] .ticker { background: #f5f3eee6; border-color: #20232020; }
+:root[data-theme="light"] .btn { border-color: #8b9086; }
+:root[data-theme="light"] .btn.primary { color: var(--bg); }
+:root[data-theme="light"] .btn.primary:hover { color: var(--bg); }
+:root[data-theme="light"] .strip-item,
+:root[data-theme="light"] .step { border-color: #20232026; background: repeating-linear-gradient(0deg, #20232006 0 1px, transparent 1px 26px), linear-gradient(#e5e6df, #efefe8 72%); }
+:root[data-theme="light"] .strip-item:hover { background: #e0e4dd; }
+:root[data-theme="light"] .strip-item.active,
+:root[data-theme="light"] .step:hover { background: repeating-linear-gradient(0deg, #14617e08 0 1px, transparent 1px 26px), linear-gradient(#dce8e9, #edf1eb 76%); }
+:root[data-theme="light"] :is(.strip-item::before, .gy) { -webkit-text-stroke-color: #20232026; }
+:root[data-theme="light"] .strip-item.active::before,
+:root[data-theme="light"] .step:hover .gy { -webkit-text-stroke-color: #14617e55; }
+:root[data-theme="light"] :is(.pj-cta, .wh-meta a:hover) { border-color: var(--ink); }
+:root[data-theme="light"] :is(.skillgroup, .stats, .stats > div, .now, .contact .bottom, .case-top, .case-facts, .case-tags span) { border-color: #20232030; }
+:root[data-theme="light"] .plate { border-color: #8c988c; background: repeating-linear-gradient(90deg, #2023200d 0 1px, transparent 1px 25%), linear-gradient(135deg, #eeeee5f5, #d7ddd3f5); box-shadow: 0 0 0 1px #20232010; }
+:root[data-theme="light"] .plate.on { border-color: var(--cool); background: linear-gradient(135deg, #c9e0e7, #e2ece7); }
+:root[data-theme="light"] .contact::before { opacity: .3; }
+:root[data-theme="light"] dialog.case { background: var(--bg); }
+:root[data-theme="light"] .case-visual { border-color: #20232030; background: radial-gradient(ellipse at top, #d1e0e2, #eeeee6 70%); }
+:root[data-theme="light"] .case-visual::before { border-color: #849287; }
+:root[data-theme="light"] .case-close { border-color: #8b9086; }
+@media (max-width: 1100px) and (min-width: 801px) { .header-actions .nav-status { display: none; } }
+@media (max-width: 800px) {
+  .header-actions { gap: 10px; }
+  :root[data-theme="light"] .navlinks { background: var(--bg); }
+}

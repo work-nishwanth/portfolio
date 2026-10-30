@@ -15,7 +15,8 @@ export const Work: React.FC<WorkProps> = ({
   onSelect,
   onOpenCase
 }) => {
-  const currentNumStr = String(selectedIndex + 1).padStart(2, '0');
+  const featuredIndex = selectedIndex < 4 ? selectedIndex : 0;
+  const currentNumStr = String(featuredIndex + 1).padStart(2, '0');
   const totalNumStr = String(projects.length).padStart(2, '0');
 
   return (
@@ -49,11 +50,16 @@ export const Work: React.FC<WorkProps> = ({
 
         <div className="work-grid">
           <ProjectStrip
-            projects={projects}
-            selectedIndex={selectedIndex}
+            projects={projects.slice(0, 4)}
+            selectedIndex={featuredIndex}
+            startIndex={0}
             onSelect={onSelect}
             onOpenCase={onOpenCase}
           />
+        </div>
+        <div className="project-pagination">
+          <span className="label muted">04 FEATURED / {totalNumStr} PROJECTS</span>
+          <a href="/projects/" className="btn label">MORE PROJECTS <span aria-hidden="true">→</span></a>
         </div>
       </div>
     </section>

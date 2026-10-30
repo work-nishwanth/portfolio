@@ -4,6 +4,17 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#050505" />
+    <script>
+      (() => {
+        let theme;
+        try { theme = localStorage.getItem('portfolio-theme'); } catch {}
+        if (theme !== 'light' && theme !== 'dark') {
+          theme = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+        }
+        document.documentElement.dataset.theme = theme;
+        document.querySelector('meta[name="theme-color"]').content = theme === 'light' ? '#f5f3ee' : '#050505';
+      })();
+    </script>
     <meta name="description" content="Nishwanth Yarra — full-stack developer and AI/ML student. Explore selected software, research and product work." />
     <meta property="og:title" content="Nishwanth Yarra — Full-stack & AI Developer" />
     <meta property="og:description" content="Thoughtful interfaces. Reliable systems. Applied intelligence." />

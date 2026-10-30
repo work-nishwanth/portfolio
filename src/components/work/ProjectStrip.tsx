@@ -5,6 +5,7 @@ import { ProjectPanel } from './ProjectPanel';
 interface ProjectStripProps {
   projects: Project[];
   selectedIndex: number;
+  startIndex: number;
   onSelect: (index: number) => void;
   onOpenCase: (index: number) => void;
 }
@@ -12,6 +13,7 @@ interface ProjectStripProps {
 export const ProjectStrip: React.FC<ProjectStripProps> = ({
   projects,
   selectedIndex,
+  startIndex,
   onSelect,
   onOpenCase
 }) => {
@@ -21,8 +23,8 @@ export const ProjectStrip: React.FC<ProjectStripProps> = ({
         <ProjectPanel
           key={project.id}
           project={project}
-          index={idx}
-          isActive={selectedIndex === idx}
+          index={startIndex + idx}
+          isActive={selectedIndex === startIndex + idx}
           onSelect={onSelect}
           onOpenCase={onOpenCase}
         />

@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import type { Project } from '../../content/projects';
+import { ProjectPreview } from '../projects/ProjectPreview';
 
 interface ProjectPanelProps {
   project: Project;
@@ -92,12 +93,7 @@ export const ProjectPanel: React.FC<ProjectPanelProps> = ({
         </span>
       </span>
 
-      <svg
-        className="strip-art art"
-        viewBox="0 0 200 140"
-        aria-hidden="true"
-        dangerouslySetInnerHTML={{ __html: project.art }}
-      />
+      {isActive && <ProjectPreview project={project} className="strip-preview" />}
     </button>
   );
 };

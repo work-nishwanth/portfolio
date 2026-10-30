@@ -9,12 +9,13 @@ import { Contact } from './components/contact/Contact';
 import { CaseStudyDialog } from './components/case/CaseStudyDialog';
 import { projects } from './content/projects';
 import { usePagedMode } from './hooks/usePagedMode';
+import { ProjectsPage } from './components/projects/ProjectsPage';
 
 function getInitialCase(): { isOpen: boolean; index: number } {
   if (typeof window === 'undefined') return { isOpen: false, index: 0 };
   const hash = window.location.hash;
   if (hash.startsWith('#case-')) {
-    const id = hash.replace('#case-', '');
+    const id = hash.replace('#case-', '').replace(/^analytics$/, 'sales-analytics');
     const idx = projects.findIndex((p) => p.id === id);
     if (idx !== -1) {
       return { isOpen: true, index: idx };
@@ -24,7 +25,8 @@ function getInitialCase(): { isOpen: boolean; index: number } {
 }
 
 export const App: React.FC = () => {
-  usePagedMode();
+  const isProjectsPage = /^\/projects\/?$/.test(window.location.pathname);
+  usePagedMode(!isProjectsPage);
 
   const [initialCase] = useState(getInitialCase);
   const [selectedProject, setSelectedProject] = useState<number>(initialCase.index);
@@ -61,7 +63,7 @@ export const App: React.FC = () => {
     const handlePopState = () => {
       const hash = window.location.hash;
       if (hash.startsWith('#case-')) {
-        const id = hash.replace('#case-', '');
+        const id = hash.replace('#case-', '').replace(/^analytics$/, 'sales-analytics');
         const idx = projects.findIndex((p) => p.id === id);
         if (idx !== -1) {
           setSelectedProject(idx);
@@ -82,12 +84,11 @@ export const App: React.FC = () => {
     openCaseWithIndex(index, true);
   };
 
-  const handleNextProject = () => {
-    const nextIndex = (selectedProject + 1) % projects.length;
+  const handleSwitchProject = (nextIndex: number) => {
     setSelectedProject(nextIndex);
     const nextProj = projects[nextIndex];
     if (nextProj) {
-      window.history.replaceState({ portfolioCase: true }, '', `#case-${nextProj.id}`);
+      window.history.replaceState(window.history.state, '', `#case-${nextProj.id}`);
     }
   };
 
@@ -101,9 +102,10 @@ export const App: React.FC = () => {
   return (
     <>
       <ProgressBar />
-      <Header onNavigate={handleNavigate} />
+      <Header onNavigate={handleNavigate} sectionBase={isProjectsPage ? '/' : ''} />
 
       <main>
+        {isProjectsPage ? <ProjectsPage onOpenCase={handleOpenCase} /> : <>
         <Hero onNavigate={handleNavigate} />
         <Work
           selectedIndex={selectedProject}
@@ -113,6 +115,7 @@ export const App: React.FC = () => {
         <About />
         <Experience />
         <Contact onNavigate={handleNavigate} />
+        </>}
       </main>
 
       <CaseStudyDialog
@@ -121,7 +124,8 @@ export const App: React.FC = () => {
         projectIndex={selectedProject}
         totalProjects={projects.length}
         onClose={() => closeCase(false)}
-        onNext={handleNextProject}
+        onNext={() => handleSwitchProject((selectedProject + 1) % projects.length)}
+        onSelectProject={handleSwitchProject}
         clickPos={clickPos}
       />
     </>

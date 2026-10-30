@@ -9,8 +9,44 @@ interface HeroProps {
 }
 
 export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
+  const heroRef = useRef<HTMLElement>(null);
   const nameRef = useRef<HTMLHeadingElement>(null);
   const baseRef = useRef<HTMLSpanElement>(null);
+  const pointerFrame = useRef(0);
+  const pointer = useRef({ x: 0, y: 0 });
+
+  useEffect(() => () => { cancelAnimationFrame(pointerFrame.current); }, []);
+
+  const handlePointerMove = (event: React.PointerEvent<HTMLElement>) => {
+    if (event.pointerType !== 'mouse' || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    pointer.current = { x: event.clientX, y: event.clientY };
+    if (pointerFrame.current) return;
+    pointerFrame.current = requestAnimationFrame(() => {
+      pointerFrame.current = 0;
+      const hero = heroRef.current;
+      const name = nameRef.current;
+      if (!hero || !name) return;
+      const rect = hero.getBoundingClientRect();
+      const heading = name.getBoundingClientRect();
+      hero.style.setProperty('--mx', String((pointer.current.x - rect.left) / rect.width - .5));
+      hero.style.setProperty('--my', String((pointer.current.y - rect.top) / rect.height - .5));
+      name.style.setProperty('--lx', `${Math.min(heading.width, Math.max(0, pointer.current.x - heading.left))}px`);
+      name.style.setProperty('--ly', `${Math.min(heading.height, Math.max(0, pointer.current.y - heading.top))}px`);
+    });
+  };
+
+  const resetPointer = () => {
+    cancelAnimationFrame(pointerFrame.current);
+    pointerFrame.current = 0;
+    heroRef.current?.style.setProperty('--mx', '0');
+    heroRef.current?.style.setProperty('--my', '0');
+    nameRef.current?.style.removeProperty('--lx');
+    nameRef.current?.style.removeProperty('--ly');
+  };
+
+  const renderName = () => Array.from(siteConfig.name).map((letter, index) => (
+    <span key={index} className={`hero-glyph${letter === ' ' ? ' hero-glyph-space' : ''}`} style={{ '--glyph-index': index } as React.CSSProperties}>{letter === ' ' ? '\u00a0' : letter}</span>
+  ));
 
   useEffect(() => {
     const heading = nameRef.current;
@@ -52,7 +88,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
   };
 
   return (
-    <section id="home" className="section hero">
+    <section ref={heroRef} id="home" className="section hero hero-animated" onPointerMove={handlePointerMove} onPointerLeave={resetPointer}>
       <Beams />
       <Skyline />
 
@@ -64,10 +100,10 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
 
         <h1 ref={nameRef} className="name" aria-label={siteConfig.name}>
           <span ref={baseRef} className="name-base" aria-hidden="true">
-            {siteConfig.name}
+            {renderName()}
           </span>
           <span className="name-lit" aria-hidden="true">
-            {siteConfig.name}
+            {renderName()}
           </span>
         </h1>
 

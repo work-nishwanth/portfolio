@@ -15,6 +15,7 @@ import './styles/theme.css';
 import './styles/projects.css';
 import './styles/contact.css';
 import './styles/case-study.css';
+import './styles/hero-motion.css';
 import App from './App.tsx';
 
 createRoot(document.getElementById('root')!).render(

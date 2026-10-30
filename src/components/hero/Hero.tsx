@@ -2,7 +2,6 @@ import React, { useRef, useEffect } from 'react';
 import { siteConfig } from '../../content/site';
 import { Beams } from './Beams';
 import { Skyline } from './Skyline';
-import { Ticker } from './Ticker';
 
 interface HeroProps {
   onNavigate?: (id: string) => void;
@@ -59,7 +58,8 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
       heading.style.fontSize = '100px';
       const w = base.offsetWidth;
       if (w > 0) {
-        heading.style.fontSize = `${(100 * avail / w * 0.997)}px`;
+        const maxSize = Math.min(152, window.innerHeight * .18);
+        heading.style.fontSize = `${Math.min(maxSize, 100 * avail / w * 0.997)}px`;
       }
     };
 
@@ -125,7 +125,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
                 {siteConfig.hero.ctaWork} <span className="arr" aria-hidden="true">↘</span>
               </a>
               <a
-                className="btn"
+                className="hero-secondary label"
                 href="#contact"
                 onClick={(e) => handleCtaClick(e, 'contact')}
               >
@@ -133,14 +133,10 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
               </a>
             </div>
 
-            <div className="mobile-availability label">
-              <span className="dot"></span> {siteConfig.availability}
-            </div>
           </div>
         </div>
       </div>
 
-      <Ticker />
     </section>
   );
 };

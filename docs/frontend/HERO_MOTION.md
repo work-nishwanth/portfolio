@@ -7,3 +7,7 @@ Animation rules are scoped to `hero-animated` and gated behind `prefers-reduced-
 Mouse movement updates skyline tilt and the name's light position through one requestAnimationFrame callback, without React state updates. Leaving the hero resets the effect; pending frames are cancelled on unmount. Touch and reduced-motion users do not receive this pointer effect.
 
 Implemented in `src/components/hero/Hero.tsx` and `src/styles/hero-motion.css`, without additional dependencies. Verified in light/dark themes at desktop and mobile widths, including navigation, name fitting, pointer reset, and reduced-motion visibility.
+
+## Hero spacing
+
+The name is capped by both viewport height and a 152px maximum so it leaves breathing room on desktop. The hero keeps one filled primary action; Contact is a quieter text link. The moving technology ticker, repeated pillar labels, and duplicate mobile availability label are omitted. A shorter skyline occupies the bottom of the composition with a verified gap from the copy at phone, tablet, and short laptop sizes. Layout rules are scoped in `src/styles/hero-layout.css`; themes and entrance motion remain shared.

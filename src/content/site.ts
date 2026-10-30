@@ -28,7 +28,7 @@ export const siteConfig = {
     kicker: 'FULL-STACK & AI DEVELOPER',
     portfolioYear: 'PORTFOLIO / 2026',
     statementHtml: 'Crafting <em>thoughtful</em> systems<span style="color:var(--warm)">.</span>',
-    sub: 'I build polished web products and intelligent tools—connecting strong engineering with useful, intuitive experiences.',
+    sub: 'Full-stack products and practical AI. Thoughtfully designed, carefully built.',
     ctaWork: 'EXPLORE WORK',
     ctaContact: 'GET IN TOUCH'
   },
